@@ -40,7 +40,7 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bH8-fg-VkX">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bH8-fg-VkX">
                                         <rect key="frame" x="0.0" y="188" width="343" height="32"/>
                                         <color key="backgroundColor" red="1" green="0.84761790751390298" blue="0.73038147144914523" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -48,9 +48,9 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Rmv-2R-e8K">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Rmv-2R-e8K">
                                         <rect key="frame" x="0.0" y="230" width="343" height="32"/>
                                         <color key="backgroundColor" red="1" green="0.89210227744397164" blue="0.77919009680855844" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="textColor"/>
@@ -87,9 +87,23 @@
                             <constraint firstItem="8ST-0m-D2d" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="bD3-0F-huG"/>
                             <constraint firstAttribute="bottomMargin" secondItem="8ST-0m-D2d" secondAttribute="bottom" id="bhN-Yq-E1o"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="wCe-10-dpN" appends="YES" id="Lza-P9-Xj7"/>
+                        </connections>
                     </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="bH8-fg-VkX" id="KNh-3k-iXe"/>
+                        <outlet property="loginButton" destination="bvs-Bz-lgC" id="2j9-rF-Yal"/>
+                        <outlet property="logoImageView" destination="tCL-Br-CWS" id="yop-hr-hce"/>
+                        <outlet property="passwordTextField" destination="Rmv-2R-e8K" id="tfS-Kc-ZV7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="wCe-10-dpN">
+                    <connections>
+                        <action selector="userDidTapView:" destination="BYZ-38-t0r" id="Yqb-aU-R8X"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="81" y="9"/>
         </scene>
