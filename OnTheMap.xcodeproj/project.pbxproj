@@ -12,6 +12,9 @@
 		3E12571D1F16B66B00E7A557 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E12571C1F16B66B00E7A557 /* Assets.xcassets */; };
 		3E12572A1F16B83D00E7A557 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E1257291F16B83D00E7A557 /* LaunchScreen.xib */; };
 		3E12572C1F16B9DA00E7A557 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E12572B1F16B9DA00E7A557 /* LoginViewController.swift */; };
+		3E4BAA651F3B829B00767A7C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4BAA641F3B829B00767A7C /* Constants.swift */; };
+		3E4FDCF61F3CDFDD00067FB9 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4FDCF51F3CDFDD00067FB9 /* UdacityClient.swift */; };
+		3E4FDCF81F3CE23B00067FB9 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4FDCF71F3CE23B00067FB9 /* GCDBlackBox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		3E1257211F16B66B00E7A557 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E1257291F16B83D00E7A557 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = Assets.xcassets/LaunchScreen.xib; sourceTree = "<group>"; };
 		3E12572B1F16B9DA00E7A557 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3E4BAA641F3B829B00767A7C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3E4FDCF51F3CDFDD00067FB9 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
+		3E4FDCF71F3CE23B00067FB9 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,8 +60,10 @@
 		3E1257141F16B66B00E7A557 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
-				3E12572D1F16B9E300E7A557 /* View Controllers */,
 				3E1257151F16B66B00E7A557 /* AppDelegate.swift */,
+				3E4FDCF71F3CE23B00067FB9 /* GCDBlackBox.swift */,
+				3E4BAA631F3B825600767A7C /* Model */,
+				3E12572D1F16B9E300E7A557 /* View Controllers */,
 				3E1257271F16B69D00E7A557 /* Assets */,
 				3E1257281F16B6AA00E7A557 /* Supporting Files */,
 			);
@@ -86,6 +94,15 @@
 				3E12572B1F16B9DA00E7A557 /* LoginViewController.swift */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		3E4BAA631F3B825600767A7C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3E4BAA641F3B829B00767A7C /* Constants.swift */,
+				3E4FDCF51F3CDFDD00067FB9 /* UdacityClient.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,8 +178,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E4FDCF61F3CDFDD00067FB9 /* UdacityClient.swift in Sources */,
 				3E12572C1F16B9DA00E7A557 /* LoginViewController.swift in Sources */,
 				3E1257161F16B66B00E7A557 /* AppDelegate.swift in Sources */,
+				3E4BAA651F3B829B00767A7C /* Constants.swift in Sources */,
+				3E4FDCF81F3CE23B00067FB9 /* GCDBlackBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +340,7 @@
 				3E1257261F16B66B00E7A557 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

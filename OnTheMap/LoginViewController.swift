@@ -117,8 +117,6 @@ private extension LoginViewController {
         backgroundGradient.locations = [0.0, 1.0]
         backgroundGradient.frame = view.frame
         view.layer.insertSublayer(backgroundGradient, at: 0)
-        
-        
     }
 }
 
@@ -132,5 +130,19 @@ private extension LoginViewController {
     
     func unsubscribeFromAllNotifications() {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    // Custom Alert function.  
+
+    func displayAlertMessage(_ title: String, _ message: String) {
+    
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        
+        // Restyle the view of the Alert
+        
+        // Add action button and present the Alert
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
     }
 }
