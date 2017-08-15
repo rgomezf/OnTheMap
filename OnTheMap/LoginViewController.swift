@@ -47,6 +47,34 @@ class LoginViewController: UIViewController {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
     }
+    
+    // MARK: Login
+    
+    @IBAction func loginPressed(_ sender: UIButton) {
+        
+        userDidTapView(self)
+        let methodParameters = [
+            UdacityClient.ParameterKeys.Username: emailTextField.text!,
+            UdacityClient.ParameterKeys.Password: passwordTextField.text!
+        ]
+        
+        UdacityClient.sharedInstance().authenticateUser(methodParameters as [String: AnyObject]) { (success, errorString) in
+            performUIUpdatesOnMain {
+                if success {
+                    // TODO: Completar el proceso de entrar
+                    self.displayAlertMessage("Exito!", "Todo salio bien")
+                    self.completeLogin()
+                } else {
+                    // TODO: Agregar 'title' a las constantes
+                    self.displayAlertMessage("Alert", errorString!)
+                }
+            }
+        }
+    }
+    
+    private func completeLogin(){
+        // TODO: llamar la siguiente pantalla.
+    }
 }
 
 /*
@@ -137,9 +165,11 @@ private extension LoginViewController {
     func displayAlertMessage(_ title: String, _ message: String) {
     
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        let cancel = UIAlertAction(title: "Dismiss", style: .destructive, handler: { (action) -> Void in })
         
         // Restyle the view of the Alert
+        alert.view.backgroundColor = UIColor.blue
+        alert.view.layer.cornerRadius = 25
         
         // Add action button and present the Alert
         alert.addAction(cancel)
