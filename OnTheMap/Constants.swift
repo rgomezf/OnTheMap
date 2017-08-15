@@ -45,11 +45,24 @@ extension UdacityClient {
     
     // MARK: JSONResponseKeys
     struct JSONResponseKeys {
+        
         static let UserSession = "session"
+        
+        // Account
         static let UserAccount = "account"
-        static let Registered = "registered"
-        static let UserKey = "key"
+        static let UserId = "key"
         static let SessionID = "id"
-        static let ExpirationDate = "expiration"
+        
+        // Student Locations
+        static let CreatedAt = "createdAt"
+        static let FirstName = "firstName"
+        static let LastName = "lastName"
+        static let latitude = "latitude"
+        static let longitude = "longitude"
+        static let mapString = "mapString"
+        static let mediaURL = "mediaURL"
+        static let objectID = "objectId"
+        static let uniqueKey = "uniqueKey"
+        static let updatedAt = "updatedAt"
     }
 }
