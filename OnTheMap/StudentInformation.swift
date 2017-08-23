@@ -23,43 +23,43 @@ class StudentInformation: NSObject {
 
     init(dictionary: [String: AnyObject]) {
         
-        if let createdAt = dictionary[UdacityClient.JSONResponseKeys.CreatedAt] as? String {
+        if let createdAt = dictionary[Constants.JSONResponseKeys.CreatedAt] as? String {
             self.createdAt = createdAt
         }
         
-        if let firstName = dictionary[UdacityClient.JSONResponseKeys.FirstName] as? String {
+        if let firstName = dictionary[Constants.JSONResponseKeys.FirstName] as? String {
             self.firstName = firstName
         }
         
-        if let lastName  = dictionary[UdacityClient.JSONResponseKeys.LastName] as? String {
+        if let lastName  = dictionary[Constants.JSONResponseKeys.LastName] as? String {
             self.lastName = lastName
         }
         
-        if let latitude  = dictionary[UdacityClient.JSONResponseKeys.latitude] as? Double {
+        if let latitude  = dictionary[Constants.JSONResponseKeys.latitude] as? Double {
             self.latitude = latitude
         }
         
-        if let longitude = dictionary[UdacityClient.JSONResponseKeys.longitude] as? Double {
+        if let longitude = dictionary[Constants.JSONResponseKeys.longitude] as? Double {
             self.longitude = longitude
         }
         
-        if let mapString = dictionary[UdacityClient.JSONResponseKeys.mapString] as? String {
+        if let mapString = dictionary[Constants.JSONResponseKeys.mapString] as? String {
             self.mapString = mapString
         }
         
-        if let mediaURL  = dictionary[UdacityClient.JSONResponseKeys.mediaURL] as? String {
+        if let mediaURL  = dictionary[Constants.JSONResponseKeys.mediaURL] as? String {
             self.mediaURL = mediaURL
         }
         
-        if let objectId  = dictionary[UdacityClient.JSONResponseKeys.objectID] as? String {
+        if let objectId  = dictionary[Constants.JSONResponseKeys.objectID] as? String {
             self.objectId = objectId
         }
         
-        if let uniqueKey = dictionary[UdacityClient.JSONResponseKeys.uniqueKey] as? String {
+        if let uniqueKey = dictionary[Constants.JSONResponseKeys.uniqueKey] as? String {
             self.uniqueKey = uniqueKey
         }
         
-        if let updatedAt = dictionary[UdacityClient.JSONResponseKeys.updatedAt] as? String {
+        if let updatedAt = dictionary[Constants.JSONResponseKeys.updatedAt] as? String {
             self.updatedAt = updatedAt
         }
     }

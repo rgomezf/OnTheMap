@@ -58,7 +58,7 @@ class UdacityClient: NSObject {
             }
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
-//            self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForGET)
+            self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForGET)
         }
         
         /* 7. Start the request */
@@ -72,7 +72,7 @@ class UdacityClient: NSObject {
         
         /* 2/3. Build the URL, Configure the request */
         let request = NSMutableURLRequest(url: URL(string: method)!)
-        request.httpMethod = Methods.MethodType
+        request.httpMethod = Constants.Methods.MethodType
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = parameters.data(using: String.Encoding.utf8)
@@ -112,6 +112,34 @@ class UdacityClient: NSObject {
         }
         
         /* 7. Start the request */
+        task.resume()
+        
+        return task
+    }
+    
+    func taskForDELETEMethod(_ method: String, completionHandlerForDelete: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+        
+        let request = NSMutableURLRequest(url: URL(string: method)!)
+        request.httpMethod = Constants.Methods.LogOut
+        var xsrfCookie: HTTPCookie? = nil
+        let shareCookieStorage = HTTPCookieStorage.shared
+        for cookie in shareCookieStorage.cookies! {
+            if cookie.name == "XSRF-TOKEN" {
+                xsrfCookie = cookie
+            }
+        }
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil { // Handle error…
+                return
+            }
+            let range = Range(5..<data!.count)
+            let newData = data?.subdata(in: range)
+            self.convertDataWithCompletionHandler(newData!, completionHandlerForConvertData: completionHandlerForDelete)
+        }
         task.resume()
         
         return task

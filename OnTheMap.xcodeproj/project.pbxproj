@@ -14,6 +14,9 @@
 		3E12572C1F16B9DA00E7A557 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E12572B1F16B9DA00E7A557 /* LoginViewController.swift */; };
 		3E27CB891F43716A00F99672 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E27CB881F43716A00F99672 /* StudentInformation.swift */; };
 		3E27CB8B1F4381C400F99672 /* StudentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E27CB8A1F4381C400F99672 /* StudentData.swift */; };
+		3E27CB8D1F4388EB00F99672 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E27CB8C1F4388EB00F99672 /* MapViewController.swift */; };
+		3E27CB911F438E4A00F99672 /* StudentTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E27CB901F438E4A00F99672 /* StudentTableTableViewController.swift */; };
+		3E27CB931F438FD100F99672 /* StudentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E27CB921F438FD100F99672 /* StudentTableViewCell.swift */; };
 		3E4BAA651F3B829B00767A7C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4BAA641F3B829B00767A7C /* Constants.swift */; };
 		3E4FDCF61F3CDFDD00067FB9 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4FDCF51F3CDFDD00067FB9 /* UdacityClient.swift */; };
 		3E4FDCF81F3CE23B00067FB9 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4FDCF71F3CE23B00067FB9 /* GCDBlackBox.swift */; };
@@ -30,6 +33,9 @@
 		3E12572B1F16B9DA00E7A557 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		3E27CB881F43716A00F99672 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		3E27CB8A1F4381C400F99672 /* StudentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentData.swift; sourceTree = "<group>"; };
+		3E27CB8C1F4388EB00F99672 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		3E27CB901F438E4A00F99672 /* StudentTableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentTableTableViewController.swift; sourceTree = "<group>"; };
+		3E27CB921F438FD100F99672 /* StudentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentTableViewCell.swift; sourceTree = "<group>"; };
 		3E4BAA641F3B829B00767A7C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3E4FDCF51F3CDFDD00067FB9 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		3E4FDCF71F3CE23B00067FB9 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
@@ -98,6 +104,9 @@
 			isa = PBXGroup;
 			children = (
 				3E12572B1F16B9DA00E7A557 /* LoginViewController.swift */,
+				3E27CB8C1F4388EB00F99672 /* MapViewController.swift */,
+				3E27CB901F438E4A00F99672 /* StudentTableTableViewController.swift */,
+				3E27CB921F438FD100F99672 /* StudentTableViewCell.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -191,9 +200,12 @@
 				3E4FDCF61F3CDFDD00067FB9 /* UdacityClient.swift in Sources */,
 				3E12572C1F16B9DA00E7A557 /* LoginViewController.swift in Sources */,
 				3E1257161F16B66B00E7A557 /* AppDelegate.swift in Sources */,
+				3E27CB911F438E4A00F99672 /* StudentTableTableViewController.swift in Sources */,
+				3E27CB8D1F4388EB00F99672 /* MapViewController.swift in Sources */,
 				3E4BAA651F3B829B00767A7C /* Constants.swift in Sources */,
 				3E27CB8B1F4381C400F99672 /* StudentData.swift in Sources */,
 				3E4FDCF81F3CE23B00067FB9 /* GCDBlackBox.swift in Sources */,
+				3E27CB931F438FD100F99672 /* StudentTableViewCell.swift in Sources */,
 				3E4FDCFA1F3CF0C200067FB9 /* UdacityConvenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

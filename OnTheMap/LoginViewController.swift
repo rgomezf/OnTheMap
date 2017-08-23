@@ -53,20 +53,28 @@ class LoginViewController: UIViewController {
     @IBAction func loginPressed(_ sender: UIButton) {
         
         userDidTapView(self)
-        let methodParameters = [
-            UdacityClient.ParameterKeys.Username: emailTextField.text!,
-            UdacityClient.ParameterKeys.Password: passwordTextField.text!
-        ]
         
-        UdacityClient.sharedInstance().authenticateUser(methodParameters as [String: AnyObject]) { (success, errorString) in
-            performUIUpdatesOnMain {
-                if success {
-                    // TODO: Completar el proceso de entrar
-                    self.displayAlertMessage("Exito!", "Todo salio bien")
-                    self.completeLogin()
-                } else {
-                    // TODO: Agregar 'title' a las constantes
-                    self.displayAlertMessage("Alert", errorString!)
+        if emailTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
+            
+            self.displayAlertMessage("Information", "The Email and Password must be provided.")
+        } else {
+            
+            setUIEnabled(false)
+            let methodParameters = [
+                Constants.ParameterKeys.Username: emailTextField.text!,
+                Constants.ParameterKeys.Password: passwordTextField.text!
+            ]
+            
+            UdacityClient.sharedInstance().authenticateUser(methodParameters as [String: AnyObject]) { (success, errorString) in
+                
+                performUIUpdatesOnMain {
+                    if success {
+                        //
+                        self.completeLogin()
+                    } else {
+                        //
+                        self.displayAlertMessage("Alert", errorString!)
+                    }
                 }
             }
         }
@@ -74,6 +82,9 @@ class LoginViewController: UIViewController {
     
     private func completeLogin(){
         // TODO: llamar la siguiente pantalla.
+            
+        let controller = self.storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UITabBarController
+        self.present(controller, animated: true, completion: nil)
     }
 }
 

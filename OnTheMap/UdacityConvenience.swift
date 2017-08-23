@@ -26,9 +26,21 @@ extension UdacityClient   {
         }
     }
     
+    func logoutUser( completionHandlerForLogout: @escaping(_ success: Bool, _ errorString: String?) -> Void) {
+        
+        endSession { (success, error) in
+            
+            if success {
+                completionHandlerForLogout(true, nil)
+            } else {
+                completionHandlerForLogout(false, error!)
+            }
+        }
+    }
+    
     private func getSessionID(_ parameters: [String: AnyObject], completionHandlerForSession: @escaping (_ success: Bool,  _ errorString: String?) -> Void) {
         
-        let jsonString = "{\"\(UdacityClient.JSONBodyKeys.Client)\": {\"username\": \"\(parameters[UdacityClient.ParameterKeys.Username]!)\", \"password\": \"\(parameters[UdacityClient.ParameterKeys.Password]!)\"}}"
+        let jsonString = "{\"\(Constants.JSONBodyKeys.Client)\": {\"username\": \"\(parameters[Constants.ParameterKeys.Username]!)\", \"password\": \"\(parameters[Constants.ParameterKeys.Password]!)\"}}"
 
         let _ = taskForPOSTMethod(Constants.AuthorizationURL, parameters: jsonString) { (results, error) in
             
@@ -36,12 +48,12 @@ extension UdacityClient   {
                 print(error)
                 completionHandlerForSession(false, "Login Failed (Request Session).")
             } else {
-                guard let session = results?[UdacityClient.JSONResponseKeys.UserSession] as? [String: AnyObject] else {
+                guard let session = results?[Constants.JSONResponseKeys.UserSession] as? [String: AnyObject] else {
                     completionHandlerForSession(false, error?.localizedDescription )
                     return
                 }
                 
-                guard let sessionID = session[UdacityClient.JSONResponseKeys.SessionID] as? String else {
+                guard let sessionID = session[Constants.JSONResponseKeys.SessionID] as? String else {
                     completionHandlerForSession(false, error?.localizedDescription)
                     return
                 }
@@ -50,5 +62,19 @@ extension UdacityClient   {
             completionHandlerForSession(true, nil)
         }
 
+    }
+    
+    private func endSession(_ completionHandlerForLogout: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        
+        let _ = taskForDELETEMethod(Constants.AuthorizationURL) { (results, error) in
+            
+            if let error = error {
+                //
+                print(error)
+                completionHandlerForLogout(false, "Logout Failed (End Session).")
+            } else {
+                completionHandlerForLogout(true, nil)
+            }
+        }
     }
 }
