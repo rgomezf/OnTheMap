@@ -59,27 +59,59 @@ extension ParseClient {
                     Constants.JSONBodyKeys.MapString: mapString as AnyObject
                 ]
                 
-                let _ = self.taskForPostMethod(Constants.Methods.StudentLocation, jsonObject: json, completionHandlerForPost: { (result, error) in
+                let _ = self.taskForPostMethod(Constants.Methods.StudentLocation, jsonObject: json, completionHandlerForPost: { (jsonData, error) in
                     
                     if let error = error {
                         completionHandler(false, error.localizedDescription)
+                    } else {
+                        
+                        guard let _ = jsonData?[Constants.JSONResponseKeys.CreatedAt] as? String else {
+                            print("Could not find key: '\(Constants.JSONResponseKeys.CreatedAt)' in \(jsonData!)")
+                            return
+                        }
+                        
+                        guard let objectID = jsonData?[Constants.JSONResponseKeys.objectID] as? String else {
+                            print("Could not find key: '\(Constants.JSONResponseKeys.objectID)' in \(jsonData!)")
+                            return
+                        }
+                        
+                        // Store user info
+                        
+                        userInfo.objectId = objectID
+                        print("ObjectID: \(objectID)")
+                        completionHandler(true, "Success! for the Post Method.")
                     }
-                    
-                    guard let createdAt = result?[Constants.JSONResponseKeys.CreatedAt] as? String else {
-                        print("Could not find key: '\(Constants.JSONResponseKeys.CreatedAt)' in \(result!)")
-                        return
-                    }
-                    
-                    guard let objectID = result?[Constants.JSONResponseKeys.objectID] as? String else {
-                        print("Could not find key: '\(Constants.JSONResponseKeys.objectID)' in \(result!)")
-                        return
-                    }
-                    
-                    // TODO: Identify where to store user info
-                    
-                    print("ObjectID: \(objectID)")
-                    completionHandler(true, "Success! for the Post Method.")
                 })
+            }
+        }
+    }
+    
+    func updateCurrentLocation( userId: String, firstName: String, lastName: String, mediaURL: String, mapString: String,
+                                _ completionHandler: @escaping (_ succes: Bool, _ error: String?) -> Void) {
+        
+        let json: [String: AnyObject] = [
+            Constants.JSONBodyKeys.UniqueKey: userId as AnyObject,
+            Constants.JSONBodyKeys.FirstName: firstName as AnyObject,
+            Constants.JSONBodyKeys.LastName: lastName as AnyObject,
+            Constants.JSONBodyKeys.MediaURL: mediaURL as AnyObject,
+            Constants.JSONBodyKeys.MapString: mapString as AnyObject
+        ]
+        
+        let _ = self.taskForPutMethod(Constants.Methods.StudentLocation, objectId: userInfo.objectId!, jsonObject: json) { (jsonData, error) in
+            
+            if let error = error {
+                
+                print(error)
+                completionHandler(false, "Failed to change location!")
+            } else {
+                
+                guard (jsonData as? [String: AnyObject]) != nil else {
+                    
+                    completionHandler(false, "No data was found")
+                    return
+                }
+                
+                completionHandler(true, nil)
             }
         }
     }

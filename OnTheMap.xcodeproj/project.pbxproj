@@ -23,6 +23,7 @@
 		3E4FDCFA1F3CF0C200067FB9 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4FDCF91F3CF0C200067FB9 /* UdacityConvenience.swift */; };
 		3ECB38791F6C0C23004901F8 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECB38781F6C0C23004901F8 /* ParseClient.swift */; };
 		3ECB387B1F6C286F004901F8 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECB387A1F6C286F004901F8 /* ParseConvenience.swift */; };
+		3ED43CFA1F7017F200317642 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED43CF91F7017F200317642 /* UserInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		3E4FDCF91F3CF0C200067FB9 /* UdacityConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConvenience.swift; sourceTree = "<group>"; };
 		3ECB38781F6C0C23004901F8 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
 		3ECB387A1F6C286F004901F8 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConvenience.swift; sourceTree = "<group>"; };
+		3ED43CF91F7017F200317642 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				3E27CB8A1F4381C400F99672 /* StudentData.swift */,
 				3ECB38781F6C0C23004901F8 /* ParseClient.swift */,
 				3ECB387A1F6C286F004901F8 /* ParseConvenience.swift */,
+				3ED43CF91F7017F200317642 /* UserInfo.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				3E27CB8B1F4381C400F99672 /* StudentData.swift in Sources */,
 				3E4FDCF81F3CE23B00067FB9 /* GCDBlackBox.swift in Sources */,
 				3E27CB931F438FD100F99672 /* StudentTableViewCell.swift in Sources */,
+				3ED43CFA1F7017F200317642 /* UserInfo.swift in Sources */,
 				3E4FDCFA1F3CF0C200067FB9 /* UdacityConvenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

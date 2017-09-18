@@ -120,6 +120,10 @@ class ParseClient: NSObject {
         request.addValue(Constants.ParseApiKey, forHTTPHeaderField: Constants.ParameterKeys.RestApiString)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        do {
+            request.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+        }
+        
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
             func sendError(_ error: String) {
