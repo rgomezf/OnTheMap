@@ -135,10 +135,10 @@
             </objects>
             <point key="canvasLocation" x="263" y="-53"/>
         </scene>
-        <!--Student Table Table View Controller-->
+        <!--Student Table View Controller-->
         <scene sceneID="6e2-Ar-k21">
             <objects>
-                <tableViewController id="3bF-wo-nqo" customClass="StudentTableTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="3bF-wo-nqo" customClass="StudentTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="yY4-P4-1HX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

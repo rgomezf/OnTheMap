@@ -1,5 +1,5 @@
 //
-//  StudentTableTableViewController.swift
+//  StudentTableViewController.swift
 //  OnTheMap
 //
 //  Created by Ramon Gomez on 8/15/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StudentTableTableViewController: UITableViewController {
+class StudentTableViewController: UITableViewController {
 
     let cellIdentifier = "StudentTableViewCell"
     var locations = [StudentInformation]()
@@ -76,7 +76,7 @@ class StudentTableTableViewController: UITableViewController {
     }
 }
 
-private extension StudentTableTableViewController {
+private extension StudentTableViewController {
     
     // Custom Alert function.
     
