@@ -47,18 +47,28 @@ extension UdacityClient   {
             if let error = error {
                 print(error)
                 completionHandlerForSession(false, "Login Failed (Request Session).")
-            } else {
-                guard let session = results?[Constants.JSONResponseKeys.UserSession] as? [String: AnyObject] else {
-                    completionHandlerForSession(false, error?.localizedDescription )
-                    return
-                }
-                
-                guard let sessionID = session[Constants.JSONResponseKeys.SessionID] as? String else {
-                    completionHandlerForSession(false, error?.localizedDescription)
-                    return
-                }
-                self.sessionID = sessionID
             }
+            guard let userAccount = results?[Constants.JSONResponseKeys.UserAccount] as? [String: AnyObject] else {
+                completionHandlerForSession(false, "Could not find key: '\(Constants.JSONResponseKeys.UserAccount)' in \(results!)")
+                return
+            }
+            
+            guard let userId = userAccount[Constants.JSONResponseKeys.UserId] as? String else {
+                completionHandlerForSession(false, "Could not find key: '\(Constants.JSONResponseKeys.UserId)' in \(results!)")
+                return
+            }
+            guard let session = results?[Constants.JSONResponseKeys.UserSession] as? [String: AnyObject] else {
+                completionHandlerForSession(false, "Could not find key: '\(Constants.JSONResponseKeys.UserSession)' in \(results!)" )
+                return
+            }
+            
+            guard let sessionId = session[Constants.JSONResponseKeys.SessionID] as? String else {
+                completionHandlerForSession(false, "Could not find key: '\(Constants.JSONResponseKeys.SessionID)' in \(results!)")
+                return
+            }
+            self.udacityId = userId
+            self.sessionId = sessionId
+            
             completionHandlerForSession(true, nil)
         }
 
@@ -69,7 +79,6 @@ extension UdacityClient   {
         let _ = taskForDELETEMethod(Constants.AuthorizationURL) { (results, error) in
             
             if let error = error {
-                //
                 print(error)
                 completionHandlerForLogout(false, "Logout Failed (End Session).")
             } else {

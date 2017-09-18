@@ -81,7 +81,11 @@ class LoginViewController: UIViewController {
     }
     
     private func completeLogin(){
-        // TODO: llamar la siguiente pantalla.
+        
+        // Set the UI Enable again before displaying the next screen
+        self.setUIEnabled(true)
+        
+        // Present the Map
             
         let controller = self.storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UITabBarController
         self.present(controller, animated: true, completion: nil)

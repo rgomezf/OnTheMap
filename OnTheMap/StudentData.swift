@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Foundation
 
-class StudentData: NSObject {
+class StudentData {
 
     class func sharedInstance() -> StudentData {
         
@@ -19,6 +20,8 @@ class StudentData: NSObject {
     }
     
     // The StudentInformation array
+    var StudentArray: [StudentInformation] = [StudentInformation]()
+    
     static func studentsFromResults(_ results: [[String: AnyObject]]) -> [StudentInformation] {
         
         var students = [StudentInformation]()

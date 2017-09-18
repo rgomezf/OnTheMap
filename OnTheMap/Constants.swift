@@ -28,6 +28,13 @@ struct Constants {
     struct ParameterKeys {
         static let Username = "username"
         static let Password = "password"
+        static let ApplicationIdString = "X-Parse-Application-Id"
+        static let RestApiString = "X-Parse-REST-API-Key"
+        static let Limit = "limit"
+        static let Skip = "skip"
+        static let Order = "order"
+        static let Query = "where"
+        
     }
 
     // MARK: Methods
@@ -37,6 +44,8 @@ struct Constants {
         static let AuthenticationSessionNew = "/session"
         static let StudentLocation = "/StudentLocation"
         static let MethodType = "POST"
+        static let MethodParsePut = "PUT"
+        static let MethodParseGet = "GET"
         static let LogOut = "DELETE"
     }
 
@@ -71,6 +80,7 @@ struct Constants {
         static let SessionID = "id"
         
         // Student Locations
+        static let Locations = "results"
         static let CreatedAt = "createdAt"
         static let FirstName = "firstName"
         static let LastName = "lastName"

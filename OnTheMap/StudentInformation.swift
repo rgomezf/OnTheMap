@@ -63,5 +63,5 @@ class StudentInformation: NSObject {
             self.updatedAt = updatedAt
         }
     }
-    
 }
+
