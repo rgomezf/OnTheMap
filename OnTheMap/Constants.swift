@@ -26,6 +26,7 @@ struct Constants {
 
     // MARK: Parameter Keys
     struct ParameterKeys {
+        
         static let Username = "username"
         static let Password = "password"
         static let ApplicationIdString = "X-Parse-Application-Id"
@@ -34,7 +35,7 @@ struct Constants {
         static let Skip = "skip"
         static let Order = "order"
         static let Query = "where"
-        
+        static let Unique = "uniqueKey"
     }
 
     // MARK: Methods
@@ -43,6 +44,7 @@ struct Constants {
         // MARK: Authentication
         static let AuthenticationSessionNew = "/session"
         static let StudentLocation = "/StudentLocation"
+        static let UpdateStudentLocation = "/StudentLocation/{objectId}"
         static let MethodType = "POST"
         static let MethodParsePut = "PUT"
         static let MethodParseGet = "GET"

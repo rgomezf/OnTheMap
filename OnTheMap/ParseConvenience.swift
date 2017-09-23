@@ -85,7 +85,37 @@ extension ParseClient {
             }
         }
     }
-    
+    func getParseOjectId(uniqueKey: String, _ completionHandler: @escaping(_ success: Bool, _ errorString: String?) -> Void) {
+        let parameters: [String: AnyObject] = [
+            Constants.ParameterKeys.Query: "=" as AnyObject,
+            Constants.ParameterKeys.Unique: uniqueKey as AnyObject
+        ]
+        let _ = getStudentLocationsFromParse(Constants.Methods.StudentLocation, parameters: parameters) { (jsonData, error) in
+            
+            if let error = error {
+                
+                completionHandler(false,"Could not get ObjectID")
+            } else {
+                
+                guard let results = jsonData?["results"] as? [[String: AnyObject]] else {
+                    print("could not find results in \(jsonData!)")
+                    return
+                }
+                
+                let studentLocation = results[results.count-1]
+                print("Location: \(studentLocation)")
+                
+                guard let objectId = studentLocation[Constants.JSONResponseKeys.objectID] as? String else {
+                    print("Could not find key: '\(Constants.JSONResponseKeys.objectID)' in \(studentLocation)")
+                    completionHandler(false, "No ObjectId was found.")
+                    return
+                }
+                userInfo.objectId = objectId
+                print("ObjectId was found: \(userInfo.objectId!)")
+                completionHandler(true, nil)
+            }
+        }
+    }
     func updateCurrentLocation( userId: String, firstName: String, lastName: String, mediaURL: String, mapString: String,
                                 _ completionHandler: @escaping (_ succes: Bool, _ error: String?) -> Void) {
         
