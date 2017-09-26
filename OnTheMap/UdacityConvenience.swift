@@ -15,7 +15,7 @@ extension UdacityClient   {
     
     func authenticateUser(_ parameters: [String: AnyObject], completionHandlerForAuth: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         
-        getSessionID(parameters) { (success, errorString) in
+        getUdacitySessionID(parameters) { (success, errorString) in
             
             if success {
                 completionHandlerForAuth(true, nil)
@@ -38,11 +38,11 @@ extension UdacityClient   {
         }
     }
     
-    private func getSessionID(_ parameters: [String: AnyObject], completionHandlerForSession: @escaping (_ success: Bool,  _ errorString: String?) -> Void) {
+    private func getUdacitySessionID(_ parameters: [String: AnyObject], completionHandlerForSession: @escaping (_ success: Bool,  _ errorString: String?) -> Void) {
         
         let jsonString = "{\"\(Constants.JSONBodyKeys.Client)\": {\"username\": \"\(parameters[Constants.ParameterKeys.Username]!)\", \"password\": \"\(parameters[Constants.ParameterKeys.Password]!)\"}}"
 
-        let _ = taskForPOSTMethod(Constants.AuthorizationURL, parameters: jsonString) { (results, error) in
+        let _ = taskForUdacityPOSTMethod(Constants.AuthorizationURL, parameters: jsonString) { (results, error) in
             
             if let error = error {
                 print(error)
@@ -66,17 +66,73 @@ extension UdacityClient   {
                 completionHandlerForSession(false, "Could not find key: '\(Constants.JSONResponseKeys.SessionID)' in \(results!)")
                 return
             }
-            self.udacityId = userId
-            self.sessionId = sessionId
+            userInfo.userId = userId
+            userInfo.sessionId = sessionId
             
+            self.getPublicUserData({ (success, error) in
+                
+                if success {
+                    
+                    print("Got User Data!")
+                } else {
+                    
+                    print("Could not get User Data!")
+                    completionHandlerForSession(false, error?.debugDescription)
+                }
+            })
             completionHandlerForSession(true, nil)
         }
 
     }
+    func getPublicUserData(_ completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+        
+        let _ = taskForUdacityGETMethod(Constants.Methods.Users, userId: userInfo.userId!) { (jsonData, error) in
+            
+            if let error = error {
+                print("error: \(error)")
+                completionHandler(false, error.localizedDescription)
+            } else {
+                
+                guard let user = jsonData?[Constants.JSONResponseKeys.User] as? [String: AnyObject] else {
+                    print("Could not find key: '\(Constants.JSONResponseKeys.User)' in \(jsonData!)")
+                    completionHandler(false, error?.localizedDescription)
+                    return
+                }
+                
+                guard let userId = user[Constants.JSONResponseKeys.UserId] as? String else {
+                    print("Could not find key: '\(Constants.JSONResponseKeys.UserId)' in \(jsonData!)")
+                    completionHandler(false, error?.localizedDescription)
+                    return
+                }
+                print("Passed GET userID: \(userId)")
+                userInfo.userId = userId
+                
+                guard let firstName = user[Constants.JSONResponseKeys.FirstName] as? String else {
+                    print("Could not find key: '\(Constants.JSONResponseKeys.FirstName)' in \(jsonData!)")
+                    completionHandler(false, error?.localizedDescription)
+                    return
+                }
+                print("Passed GET firstName: \(firstName)")
+                
+                userInfo.firstName = firstName
+                
+                guard let lastName = user[Constants.JSONResponseKeys.LastName] as? String else {
+                    print("Could not find key: '\(Constants.JSONResponseKeys.LastName)' in \(jsonData!)")
+                    completionHandler(false, error?.localizedDescription)
+                    return
+                }
+                print("Passed GET lastName: \(lastName)")
+                
+                userInfo.lastName = lastName
+                
+                completionHandler(true, nil)
+            }
+        }
+    }
     
     private func endSession(_ completionHandlerForLogout: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         
-        let _ = taskForDELETEMethod(Constants.AuthorizationURL) { (results, error) in
+        let _ = taskForUdacityDELETEMethod(Constants.AuthorizationURL) { (results, error) in
             
             if let error = error {
                 print(error)

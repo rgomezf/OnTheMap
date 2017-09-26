@@ -13,22 +13,18 @@ class UdacityClient: NSObject {
     // shared session
     var session = URLSession.shared
     
-    // properties
-    var sessionId: String? = nil
-    var expiration: String? = nil
-    var udacityId: String? = nil
-    
     // MARK: Initializers
     
     override init() {
         super.init()
     }
     
-    func taskForGETMethod(_ method: String, parameters: [String:AnyObject], completionHandlerForGET: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+    func taskForUdacityGETMethod(_ method: String, userId: String, completionHandlerForGET: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
         
         
         /* Build the URL, Configure the request */
-        let request = NSMutableURLRequest(url: buildURLFromParameters(parameters, withPathExtension: method))
+        let urlString = Constants.UdacityBaseURL + method + "/" + userId
+        let request = NSMutableURLRequest(url: URL(string: urlString)!)
         
         /* Make the request */
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
@@ -36,7 +32,7 @@ class UdacityClient: NSObject {
             func sendError(_ error: String) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForGET(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+                completionHandlerForGET(nil, NSError(domain: "taskForUdacityGETMethod", code: 1, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */
@@ -57,34 +53,35 @@ class UdacityClient: NSObject {
                 return
             }
             
-            /* 5/6. Parse the data and use the data (happens in completion handler) */
-            self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForGET)
+            /* Parse the data and use the data (happens in completion handler) */
+            let range = Range(5..<data.count)
+            let newData = data.subdata(in: range)
+            self.convertDataWithCompletionHandler(newData, completionHandlerForConvertData: completionHandlerForGET)
         }
         
-        /* 7. Start the request */
+        /* Start the request */
         task.resume()
         
         return task
     }
     
-    func taskForPOSTMethod(_ method: String, parameters: String, completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+    func taskForUdacityPOSTMethod(_ method: String, parameters: String, completionHandlerForPOST: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
         
         
-        /* 2/3. Build the URL, Configure the request */
+        /* Build the URL, Configure the request */
         let request = NSMutableURLRequest(url: URL(string: method)!)
         request.httpMethod = Constants.Methods.MethodType
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = parameters.data(using: String.Encoding.utf8)
-
         
-        /* 4. Make the request */
+        /* Make the request */
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
             func sendError(_ error: String) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForPOST(error as AnyObject, NSError(domain: "taskForPostMethod", code: 1, userInfo: userInfo))
+                completionHandlerForPOST(error as AnyObject, NSError(domain: "taskForUdacityPOSTMethod", code: 1, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */
@@ -118,7 +115,7 @@ class UdacityClient: NSObject {
         return task
     }
     
-    func taskForDELETEMethod(_ method: String, completionHandlerForDelete: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+    func taskForUdacityDELETEMethod(_ method: String, completionHandlerForDelete: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
         
         let request = NSMutableURLRequest(url: URL(string: method)!)
         request.httpMethod = Constants.Methods.LogOut
@@ -134,12 +131,33 @@ class UdacityClient: NSObject {
         }
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            
+            func sendError(_ error: String) {
+                print(error)
+                let userInfo = [NSLocalizedDescriptionKey : error]
+                completionHandlerForDelete(error as AnyObject, NSError(domain: "taskForUdacityDELETEMethod", code: 1, userInfo: userInfo))
+            }
+            
             if error != nil { // Handle error…
+                sendError("There was an Error with the request.")
                 return
             }
-            let range = Range(5..<data!.count)
-            let newData = data?.subdata(in: range)
-            self.convertDataWithCompletionHandler(newData!, completionHandlerForConvertData: completionHandlerForDelete)
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                sendError("Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                sendError("No data was returned by the request!")
+                return
+            }
+            
+            let range = Range(5..<data.count)
+            let newData = data.subdata(in: range)
+            self.convertDataWithCompletionHandler(newData, completionHandlerForConvertData: completionHandlerForDelete)
         }
         task.resume()
         

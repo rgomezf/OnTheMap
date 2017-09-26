@@ -21,14 +21,16 @@ class ParseClient: NSObject {
         super.init()
     }
 
-    func taskForGetMethod(_ method: String, parameters: [String: AnyObject], completionHandlerForGet: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionTask {
+    func taskForParseGetMethod(_ method: String, parameters: [String: AnyObject], completionHandlerForGet: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionTask {
         
-        /* Build the URL, Configure the request */
-        let url = URL(string: Constants.ParseBaseURL + Constants.Methods.StudentLocation)!
-        let request = NSMutableURLRequest(url: url)
+        /* Build the URL, Configure the request */ // TODO: Use the method parameter and parameters variable
+        let url = URL(string: Constants.ParseBaseURL + method)!
+        print("url: \(buildURLFromParameters(parameters, withPathExtension: method))")
+        
+        let request = NSMutableURLRequest(url: buildURLFromParameters(parameters, withPathExtension: method))
         request.addValue(Constants.ParseApplicationID, forHTTPHeaderField: Constants.ParameterKeys.ApplicationIdString)
         request.addValue(Constants.ParseApiKey, forHTTPHeaderField: Constants.ParameterKeys.RestApiString)
-        
+
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
             func sendError(_ error: String) {
@@ -64,7 +66,7 @@ class ParseClient: NSObject {
         return task
     }
     
-    func taskForPostMethod(_ method: String, jsonObject: [String: AnyObject], completionHandlerForPost: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionTask {
+    func taskForParsePostMethod(_ method: String, jsonObject: [String: AnyObject], completionHandlerForPost: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionTask {
         
         let url = URL(string: Constants.ParseBaseURL + method)!
         let request = NSMutableURLRequest(url: url)
@@ -110,7 +112,7 @@ class ParseClient: NSObject {
         return task
     }
     
-    func taskForPutMethod(_ method: String, objectId: String, jsonObject: [String: AnyObject], completionHandlerForPUT: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionTask {
+    func taskForParsePutMethod(_ method: String, objectId: String, jsonObject: [String: AnyObject], completionHandlerForPUT: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionTask {
         
         /* Build the URL, Configure the request */
         let url = URL(string: Constants.ParseBaseURL + Constants.Methods.StudentLocation)!
@@ -171,7 +173,7 @@ class ParseClient: NSObject {
             func sendError(_ error: String) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForGet(error as AnyObject, NSError(domain: "taskForPutMethod", code: 1, userInfo: userInfo))
+                completionHandlerForGet(error as AnyObject, NSError(domain: "getStudentLocations", code: 1, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */
@@ -208,8 +210,8 @@ class ParseClient: NSObject {
         
         var components = URLComponents()
         components.scheme = Constants.ApiScheme
-        components.host = Constants.ApiHost
-        components.path = Constants.ApiPath + (withPathExtension ?? "")
+        components.host = Constants.ParseHost
+        components.path = Constants.ParsePath + (withPathExtension ?? "")
         components.queryItems = [URLQueryItem]()
         
         for (key, value) in parameters {
@@ -217,14 +219,14 @@ class ParseClient: NSObject {
             components.queryItems!.append(queryItem)
         }
         print("url: \(components.url!)")
-        
+        print("query: \(components.query!)")
         return components.url!
     }
     
     // given raw JSON, return a usable Foundation object
     private func convertDataWithCompletionHandler(_ data: Data, completionHandlerForConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
         
-        var parsedResult: AnyObject! = nil
+        var parsedResult: AnyObject!
         do {
             parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
         } catch {

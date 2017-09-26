@@ -20,7 +20,7 @@ extension ParseClient {
             Constants.ParameterKeys.Order: "-updateAT" as AnyObject
         ]
         
-        let _ = taskForGetMethod(Constants.Methods.StudentLocation, parameters: parameters) { (jsonData, error) in
+        let _ = taskForParseGetMethod(Constants.Methods.StudentLocation, parameters: parameters) { (jsonData, error) in
             
             if let error = error {
                 completionHandler(nil, error.localizedDescription)
@@ -38,7 +38,18 @@ extension ParseClient {
     
     func postNewLocation(userId: String, firstName: String, lastName: String, mediaUrl: String, mapString: String,
                          _ completionHandler: @escaping (_ success: Bool, _ error: String)  -> Void) {
-        
+        /*
+         // Client.shared.postForParse(urlAsString: "https://parse.udacity.com/parse/classes/StudentLocation",
+         httpMessageBody: "{\"uniqueKey\": \"\(Constants.Udacity.userID)\", \"firstName\": \"\(Constants.Udacity.firstName)\", \"lastName\": \"\(Constants.Udacity.lastName)\",\"mapString\": \"\(Constants.Map.enteredLocation!)\", \"mediaURL\": \"\(Constants.Map.enteredURL!)\",\"latitude\": \(Constants.Map.latitude!), \"longitude\": \(Constants.Map.longitude!)}"
+         --
+         let url = NSURL(string: urlAsString)
+         var request = URLRequest(url: url as! URL)
+         request.httpMethod = "POST"
+         request.addValue(Constants.Parse.AppicationID, forHTTPHeaderField: X-Parse-Application-Id)
+         request.addValue(Constants.Parse.APIKey, forHTTPHeaderField: X-Parse-REST-API-Key)
+         request.addValue(Constants.Parse.contentType, forHTTPHeaderField: application/json)
+         request.httpBody = httpMessageBody.data(using: String.Encoding.utf8)
+         */
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(mapString) { (placemarks, error) -> Void in
             
@@ -59,7 +70,7 @@ extension ParseClient {
                     Constants.JSONBodyKeys.MapString: mapString as AnyObject
                 ]
                 
-                let _ = self.taskForPostMethod(Constants.Methods.StudentLocation, jsonObject: json, completionHandlerForPost: { (jsonData, error) in
+                let _ = self.taskForParsePostMethod(Constants.Methods.StudentLocation, jsonObject: json, completionHandlerForPost: { (jsonData, error) in
                     
                     if let error = error {
                         completionHandler(false, error.localizedDescription)
@@ -70,8 +81,8 @@ extension ParseClient {
                             return
                         }
                         
-                        guard let objectID = jsonData?[Constants.JSONResponseKeys.objectID] as? String else {
-                            print("Could not find key: '\(Constants.JSONResponseKeys.objectID)' in \(jsonData!)")
+                        guard let objectID = jsonData?[Constants.JSONResponseKeys.ObjectID] as? String else {
+                            print("Could not find key: '\(Constants.JSONResponseKeys.ObjectID)' in \(jsonData!)")
                             return
                         }
                         
@@ -87,14 +98,13 @@ extension ParseClient {
     }
     func getParseOjectId(uniqueKey: String, _ completionHandler: @escaping(_ success: Bool, _ errorString: String?) -> Void) {
         let parameters: [String: AnyObject] = [
-            Constants.ParameterKeys.Query: "=" as AnyObject,
             Constants.ParameterKeys.Unique: uniqueKey as AnyObject
         ]
         let _ = getStudentLocationsFromParse(Constants.Methods.StudentLocation, parameters: parameters) { (jsonData, error) in
             
             if let error = error {
                 
-                completionHandler(false,"Could not get ObjectID")
+                completionHandler(false,"Could not get ObjectId, \(error)")
             } else {
                 
                 guard let results = jsonData?["results"] as? [[String: AnyObject]] else {
@@ -105,8 +115,8 @@ extension ParseClient {
                 let studentLocation = results[results.count-1]
                 print("Location: \(studentLocation)")
                 
-                guard let objectId = studentLocation[Constants.JSONResponseKeys.objectID] as? String else {
-                    print("Could not find key: '\(Constants.JSONResponseKeys.objectID)' in \(studentLocation)")
+                guard let objectId = studentLocation[Constants.JSONResponseKeys.ObjectID] as? String else {
+                    print("Could not find key: '\(Constants.JSONResponseKeys.ObjectID)' in \(studentLocation)")
                     completionHandler(false, "No ObjectId was found.")
                     return
                 }
@@ -127,7 +137,7 @@ extension ParseClient {
             Constants.JSONBodyKeys.MapString: mapString as AnyObject
         ]
         
-        let _ = self.taskForPutMethod(Constants.Methods.StudentLocation, objectId: userInfo.objectId!, jsonObject: json) { (jsonData, error) in
+        let _ = self.taskForParsePutMethod(Constants.Methods.StudentLocation, objectId: userInfo.objectId!, jsonObject: json) { (jsonData, error) in
             
             if let error = error {
                 

@@ -10,12 +10,12 @@ import Foundation
 
 struct UserInfo {
     
-    var firstName: String?
-    var LastName: String?
-    var userId: String?
-    var objectId: String?
-    var uniqueKey: String?
-    
+    var firstName: String? = ""
+    var lastName: String? = ""
+    var userId: String? = ""
+    var objectId: String? = ""
+    var uniqueKey: String? = ""
+    var sessionId: String? = ""
 }
 
 var userInfo = UserInfo()

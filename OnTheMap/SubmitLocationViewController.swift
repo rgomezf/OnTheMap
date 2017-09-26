@@ -13,7 +13,6 @@ import UIKit
 class SubmitLocationViewController: UIViewController, MKMapViewDelegate {
 
     // Properties
-    
     var coordinate: CLLocationCoordinate2D!
     
     @IBOutlet weak var mapView: MKMapView!
@@ -47,7 +46,7 @@ class SubmitLocationViewController: UIViewController, MKMapViewDelegate {
         
         let annotation = MKPointAnnotation()
         
-        annotation.title = userInfo.firstName! + " " + userInfo.LastName!
+        annotation.title = userInfo.firstName! + " " + userInfo.lastName!
         annotation.coordinate = self.coordinate
         annotation.subtitle = LocationInfo.website
         
@@ -57,42 +56,50 @@ class SubmitLocationViewController: UIViewController, MKMapViewDelegate {
     func postLocation(_ completionHandler: @escaping (_ success: Bool) -> Void) {
         
         self.addAnnotation()
-        
-        print("\(userInfo)")
-        ParseClient.sharedInstance().getParseOjectId(uniqueKey: userInfo.userId!) { (success, errorString) in
+ /*
+ // Client.shared.postForParse(urlAsString: "https://parse.udacity.com/parse/classes/StudentLocation",
+             httpMessageBody: "{\"uniqueKey\": \"\(Constants.Udacity.userID)\", \"firstName\": \"\(Constants.Udacity.firstName)\", \"lastName\": \"\(Constants.Udacity.lastName)\",\"mapString\": \"\(Constants.Map.enteredLocation!)\", \"mediaURL\": \"\(Constants.Map.enteredURL!)\",\"latitude\": \(Constants.Map.latitude!), \"longitude\": \(Constants.Map.longitude!)}"
+ --
+     let url = NSURL(string: urlAsString)
+     var request = URLRequest(url: url as! URL)
+     request.httpMethod = "POST"
+     request.addValue(Constants.Parse.AppicationID, forHTTPHeaderField: X-Parse-Application-Id)
+     request.addValue(Constants.Parse.APIKey, forHTTPHeaderField: X-Parse-REST-API-Key)
+     request.addValue(Constants.Parse.contentType, forHTTPHeaderField: application/json)
+     request.httpBody = httpMessageBody.data(using: String.Encoding.utf8)
+ */
+        if userInfo.objectId == "" {
             
-            if userInfo.objectId == "" {
+            ParseClient.sharedInstance().postNewLocation(userId: userInfo.userId!, firstName: userInfo.firstName!, lastName: userInfo.lastName!, mediaUrl: LocationInfo.website, mapString: LocationInfo.location) { (success, errorString) in
                 
-                ParseClient.sharedInstance().postNewLocation(userId: userInfo.userId!, firstName: userInfo.firstName!, lastName: userInfo.LastName!, mediaUrl: LocationInfo.website, mapString: LocationInfo.location, { (success, errorString) in
-                    
-                    performUIUpdatesOnMain {
-                        
-                        if success {
-                            
-                            completionHandler(true)
-                            self.completeSubmition()
-                        } else {
-                            
-                            completionHandler(false)
-                            self.dismiss(animated: true, completion: nil)
-                        }
-                    }
-                })
-            } else {
-                
-                ParseClient.sharedInstance().updateCurrentLocation(userId: userInfo.userId!, firstName: userInfo.firstName!, lastName: userInfo.LastName!, mediaURL: LocationInfo.website, mapString: LocationInfo.location, { (success, errorString) in
+                performUIUpdatesOnMain {
                     
                     if success {
                         
                         completionHandler(true)
                         self.completeSubmition()
                     } else {
+                        
                         completionHandler(false)
                         self.dismiss(animated: true, completion: nil)
                     }
-                })
+                }
             }
+        } else {
+            
+            ParseClient.sharedInstance().updateCurrentLocation(userId: userInfo.userId!, firstName: userInfo.firstName!, lastName: userInfo.lastName!, mediaURL: LocationInfo.website, mapString: LocationInfo.location, { (success, errorString) in
+                
+                if success {
+                    
+                    completionHandler(true)
+                    self.completeSubmition()
+                } else {
+                    completionHandler(false)
+                    self.dismiss(animated: true, completion: nil)
+                }
+            })
         }
+        
     }
     
     func completeSubmition() {

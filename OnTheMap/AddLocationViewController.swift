@@ -16,12 +16,14 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var websiteTextField: UITextField!
 
     @IBOutlet weak var findLocationOutlet: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         locationTextField.delegate = self
         websiteTextField.delegate = self
+        activityIndicator.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +49,9 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
             
             performUIUpdatesOnMain {
                 
+                self.activityIndicator.isHidden = false
+                self.activityIndicator.startAnimating()
+                
                 self.findLocation({ (success, errorString) in
                     
                     if success {
@@ -60,7 +65,8 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
                     }
                 })
             }
-            
+            self.activityIndicator.stopAnimating()
+            self.activityIndicator.isHidden = true
         }
     }
     
@@ -81,20 +87,20 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
                     completionHandler(false, error?.localizedDescription)
                     return
                 }
-                guard let lat = placemark[0].location?.coordinate.latitude else {
+                guard let latitude = placemark[0].location?.coordinate.latitude else {
                     
                     completionHandler(false, error?.localizedDescription)
                     return
                 }
                 
-                guard let long = placemark[0].location?.coordinate.longitude else {
+                guard let longitude = placemark[0].location?.coordinate.longitude else {
                     
                     completionHandler(false, error?.localizedDescription)
                     return
                 }
                 
-                LocationInfo.latitude = lat
-                LocationInfo.longitude = long
+                LocationInfo.latitude = latitude
+                LocationInfo.longitude = longitude
                 
                 print("\(LocationInfo.latitude) \(LocationInfo.longitude)")
                 completionHandler(true, nil)

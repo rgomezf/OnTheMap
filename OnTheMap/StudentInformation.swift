@@ -23,43 +23,43 @@ class StudentInformation: NSObject {
 
     init(dictionary: [String: AnyObject]) {
         
-        if let createdAt = dictionary[Constants.JSONResponseKeys.CreatedAt] as? String {
+        if let createdAt = dictionary[Constants.JSONBodyKeys.CreatedAt] as? String {
             self.createdAt = createdAt
         }
         
-        if let firstName = dictionary[Constants.JSONResponseKeys.FirstName] as? String {
+        if let firstName = dictionary[Constants.JSONBodyKeys.FirstName] as? String {
             self.firstName = firstName
         }
         
-        if let lastName  = dictionary[Constants.JSONResponseKeys.LastName] as? String {
+        if let lastName  = dictionary[Constants.JSONBodyKeys.LastName] as? String {
             self.lastName = lastName
         }
         
-        if let latitude  = dictionary[Constants.JSONResponseKeys.latitude] as? Double {
+        if let latitude  = dictionary[Constants.JSONBodyKeys.Latitude] as? Double {
             self.latitude = latitude
         }
         
-        if let longitude = dictionary[Constants.JSONResponseKeys.longitude] as? Double {
+        if let longitude = dictionary[Constants.JSONBodyKeys.Longitude] as? Double {
             self.longitude = longitude
         }
         
-        if let mapString = dictionary[Constants.JSONResponseKeys.mapString] as? String {
+        if let mapString = dictionary[Constants.JSONBodyKeys.MapString] as? String {
             self.mapString = mapString
         }
         
-        if let mediaURL  = dictionary[Constants.JSONResponseKeys.mediaURL] as? String {
+        if let mediaURL  = dictionary[Constants.JSONBodyKeys.MediaURL] as? String {
             self.mediaURL = mediaURL
         }
         
-        if let objectId  = dictionary[Constants.JSONResponseKeys.objectID] as? String {
+        if let objectId  = dictionary[Constants.JSONBodyKeys.ObjectId] as? String {
             self.objectId = objectId
         }
         
-        if let uniqueKey = dictionary[Constants.JSONResponseKeys.uniqueKey] as? String {
+        if let uniqueKey = dictionary[Constants.JSONBodyKeys.UniqueKey] as? String {
             self.uniqueKey = uniqueKey
         }
         
-        if let updatedAt = dictionary[Constants.JSONResponseKeys.updatedAt] as? String {
+        if let updatedAt = dictionary[Constants.JSONBodyKeys.UpdatedAt] as? String {
             self.updatedAt = updatedAt
         }
     }

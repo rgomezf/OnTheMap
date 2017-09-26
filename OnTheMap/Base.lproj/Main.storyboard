@@ -216,7 +216,7 @@
                                 <rect key="frame" x="36" y="356" width="302" height="30"/>
                                 <color key="backgroundColor" red="0.020961537957191467" green="0.70735543966293335" blue="0.89113742113113403" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="302" id="Vqa-on-8xH"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="302" id="Vqa-on-8xH"/>
                                 </constraints>
                                 <state key="normal" title="FIND LOCATION">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -225,18 +225,26 @@
                                     <action selector="findButton:" destination="pN4-1t-fkZ" eventType="touchUpInside" id="0Xd-w8-cIW"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="KAR-qQ-Ohs" userLabel="Activity Indicator">
+                                <rect key="frame" x="177" y="418" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fFm-n1-qQO" firstAttribute="centerX" secondItem="5Sl-XK-Nrq" secondAttribute="centerX" id="2he-oi-Ddc"/>
+                            <constraint firstAttribute="trailing" secondItem="a9c-q6-X8Y" secondAttribute="trailing" constant="37" id="Erf-qk-5rf"/>
                             <constraint firstItem="5Sl-XK-Nrq" firstAttribute="centerY" secondItem="veD-4f-sOw" secondAttribute="centerY" id="FMu-pT-frU"/>
                             <constraint firstItem="a9c-q6-X8Y" firstAttribute="top" secondItem="5Sl-XK-Nrq" secondAttribute="bottom" constant="7.5" id="JFe-Jx-liA"/>
                             <constraint firstItem="fFm-n1-qQO" firstAttribute="leading" secondItem="5Sl-XK-Nrq" secondAttribute="leading" id="VFj-Ya-70b"/>
-                            <constraint firstItem="a9c-q6-X8Y" firstAttribute="leading" secondItem="5Sl-XK-Nrq" secondAttribute="leading" id="gRW-6N-Mzr"/>
+                            <constraint firstItem="CWd-oX-jfm" firstAttribute="top" secondItem="KAR-qQ-Ohs" secondAttribute="bottom" constant="229" id="a1S-zK-vvC"/>
+                            <constraint firstAttribute="trailing" secondItem="KAR-qQ-Ohs" secondAttribute="trailing" constant="178" id="bhX-fG-hWT"/>
+                            <constraint firstItem="a9c-q6-X8Y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5Sl-XK-Nrq" secondAttribute="leading" id="gRW-6N-Mzr"/>
                             <constraint firstItem="5Sl-XK-Nrq" firstAttribute="top" secondItem="fFm-n1-qQO" secondAttribute="bottom" constant="8" id="iYH-5q-S4s"/>
                             <constraint firstItem="fFm-n1-qQO" firstAttribute="centerX" secondItem="Fi9-1x-F3D" secondAttribute="centerX" id="mfx-8c-QpJ"/>
                             <constraint firstItem="5Sl-XK-Nrq" firstAttribute="centerX" secondItem="veD-4f-sOw" secondAttribute="centerX" id="mxY-zA-WnW"/>
                             <constraint firstItem="fFm-n1-qQO" firstAttribute="top" secondItem="Fi9-1x-F3D" secondAttribute="bottom" constant="72" id="nlz-u6-ZdX"/>
+                            <constraint firstItem="KAR-qQ-Ohs" firstAttribute="top" secondItem="a9c-q6-X8Y" secondAttribute="bottom" constant="32" id="plD-uS-Q6c"/>
+                            <constraint firstItem="KAR-qQ-Ohs" firstAttribute="leading" secondItem="veD-4f-sOw" secondAttribute="leading" constant="177" id="zwU-RD-bKb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add Location" id="sxt-wH-sYL">
@@ -247,6 +255,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="KAR-qQ-Ohs" id="8iH-LS-buN"/>
                         <outlet property="findLocationOutlet" destination="a9c-q6-X8Y" id="OgF-KA-a28"/>
                         <outlet property="locationTextField" destination="fFm-n1-qQO" id="1hh-cZ-4Nu"/>
                         <outlet property="websiteTextField" destination="5Sl-XK-Nrq" id="WDr-q7-XUy"/>
@@ -259,7 +268,7 @@
         <!--Submit Location View Controller-->
         <scene sceneID="Zpc-gy-146">
             <objects>
-                <viewController id="VwS-hp-b3j" customClass="SubmitLocationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SubmitLocation" id="VwS-hp-b3j" customClass="SubmitLocationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Vex-UE-0jt"/>
                         <viewControllerLayoutGuide type="bottom" id="ESP-tl-ipm"/>
@@ -268,8 +277,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fJe-EZ-01g">
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tir-66-fu1">
+                                <rect key="frame" x="38" y="591" width="300" height="30"/>
+                                <color key="backgroundColor" red="0.103368856" green="0.69734001160000003" blue="0.90517991779999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="SUBMIT">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="submitButton:" destination="VwS-hp-b3j" eventType="touchUpInside" id="ma3-tD-v19"/>
+                                </connections>
+                            </button>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j8y-gK-84q">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="10" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="Add Location" id="1fC-QA-C2O">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5Wz-4C-qS4">
@@ -280,32 +302,18 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fJe-EZ-01g">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
-                            </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tir-66-fu1">
-                                <rect key="frame" x="36" y="591" width="302" height="30"/>
-                                <color key="backgroundColor" red="0.103368856" green="0.69734001160000003" blue="0.90517991779999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Button">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="submitButton:" destination="VwS-hp-b3j" eventType="touchUpInside" id="ma3-tD-v19"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Tir-66-fu1" secondAttribute="trailing" constant="37" id="1sl-o9-hda"/>
+                            <constraint firstItem="Tir-66-fu1" firstAttribute="leading" secondItem="HXY-EJ-EDO" secondAttribute="leadingMargin" constant="22" id="4FB-3a-Gui"/>
                             <constraint firstItem="ESP-tl-ipm" firstAttribute="top" secondItem="fJe-EZ-01g" secondAttribute="bottom" id="DUR-Vp-F1r"/>
                             <constraint firstAttribute="trailing" secondItem="fJe-EZ-01g" secondAttribute="trailing" id="Dqt-wP-VGr"/>
-                            <constraint firstItem="Tir-66-fu1" firstAttribute="leading" secondItem="HXY-EJ-EDO" secondAttribute="leading" constant="36" id="EXX-P7-19O"/>
+                            <constraint firstItem="ESP-tl-ipm" firstAttribute="top" secondItem="Tir-66-fu1" secondAttribute="bottom" constant="46" id="RIc-Hf-8k7"/>
                             <constraint firstItem="j8y-gK-84q" firstAttribute="leading" secondItem="fJe-EZ-01g" secondAttribute="leading" id="YWY-Q5-e3J"/>
-                            <constraint firstItem="ESP-tl-ipm" firstAttribute="top" secondItem="Tir-66-fu1" secondAttribute="bottom" constant="46" id="aBS-LR-SU9"/>
-                            <constraint firstItem="fJe-EZ-01g" firstAttribute="top" secondItem="j8y-gK-84q" secondAttribute="bottom" id="cSb-Rw-nVT"/>
-                            <constraint firstItem="j8y-gK-84q" firstAttribute="top" secondItem="HXY-EJ-EDO" secondAttribute="top" id="h2D-RG-xpJ"/>
+                            <constraint firstItem="Tir-66-fu1" firstAttribute="centerX" secondItem="j8y-gK-84q" secondAttribute="centerX" id="b7N-ul-LDC"/>
+                            <constraint firstItem="fJe-EZ-01g" firstAttribute="top" secondItem="j8y-gK-84q" secondAttribute="bottom" constant="-10" id="cSb-Rw-nVT"/>
+                            <constraint firstItem="j8y-gK-84q" firstAttribute="top" secondItem="HXY-EJ-EDO" secondAttribute="top" constant="10" id="h2D-RG-xpJ"/>
                             <constraint firstItem="j8y-gK-84q" firstAttribute="trailing" secondItem="fJe-EZ-01g" secondAttribute="trailing" id="rmM-wM-lIj"/>
-                            <constraint firstItem="Tir-66-fu1" firstAttribute="top" secondItem="Vex-UE-0jt" secondAttribute="bottom" constant="571" id="xq9-B5-AR7"/>
                             <constraint firstItem="fJe-EZ-01g" firstAttribute="leading" secondItem="HXY-EJ-EDO" secondAttribute="leading" id="ykf-Ua-mLh"/>
                         </constraints>
                     </view>
@@ -316,7 +324,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DNz-e4-e2K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5389.6000000000004" y="179.46026986506749"/>
+            <point key="canvasLocation" x="5463" y="181"/>
         </scene>
         <!--On the Map-->
         <scene sceneID="2Lh-2L-lQ0">
