@@ -56,19 +56,7 @@ class SubmitLocationViewController: UIViewController, MKMapViewDelegate {
     func postLocation(_ completionHandler: @escaping (_ success: Bool) -> Void) {
         
         self.addAnnotation()
- /*
- // Client.shared.postForParse(urlAsString: "https://parse.udacity.com/parse/classes/StudentLocation",
-             httpMessageBody: "{\"uniqueKey\": \"\(Constants.Udacity.userID)\", \"firstName\": \"\(Constants.Udacity.firstName)\", \"lastName\": \"\(Constants.Udacity.lastName)\",\"mapString\": \"\(Constants.Map.enteredLocation!)\", \"mediaURL\": \"\(Constants.Map.enteredURL!)\",\"latitude\": \(Constants.Map.latitude!), \"longitude\": \(Constants.Map.longitude!)}"
- --
-     let url = NSURL(string: urlAsString)
-     var request = URLRequest(url: url as! URL)
-     request.httpMethod = "POST"
-     request.addValue(Constants.Parse.AppicationID, forHTTPHeaderField: X-Parse-Application-Id)
-     request.addValue(Constants.Parse.APIKey, forHTTPHeaderField: X-Parse-REST-API-Key)
-     request.addValue(Constants.Parse.contentType, forHTTPHeaderField: application/json)
-     request.httpBody = httpMessageBody.data(using: String.Encoding.utf8)
- */
-        // Look for the Student Location and try to get it's objectId from Parse
+
         if userInfo.objectId == "" {
             
             ParseClient.sharedInstance().postNewLocation(userId: userInfo.uniqueKey!, firstName: userInfo.firstName!, lastName: userInfo.lastName!, mediaUrl: LocationInfo.website, mapString: LocationInfo.location) { (success, errorString) in
@@ -78,36 +66,34 @@ class SubmitLocationViewController: UIViewController, MKMapViewDelegate {
                     if success {
                         
                         completionHandler(true)
-                        self.completeSubmition()
                     } else {
                         
                         completionHandler(false)
-                        self.dismiss(animated: true, completion: nil)
+                        self.displayAlertMessage("Error!", "Error while Posting the Location.")
                     }
                 }
             }
         } else {
             
-            ParseClient.sharedInstance().updateCurrentLocation(uniqueKey: userInfo.uniqueKey!, firstName: userInfo.firstName!, lastName: userInfo.lastName!, mediaURL: LocationInfo.website, mapString: LocationInfo.location, { (success, errorString) in
+            ParseClient.sharedInstance().updateCurrentLocation(objectId: userInfo.objectId!, firstName: userInfo.firstName!, lastName: userInfo.lastName!, mediaURL: LocationInfo.website, mapString: LocationInfo.location) { (success, errorString) in
                 
-                if success {
+                performUIUpdatesOnMain {
                     
-                    completionHandler(true)
-                    self.completeSubmition()
-                } else {
-                    completionHandler(false)
-                    self.dismiss(animated: true, completion: nil)
+                    if success {
+                        
+                        completionHandler(true)
+                    } else {
+                        completionHandler(false)
+                        self.displayAlertMessage("Error!", "Error Updating the Location.")
+                    }
                 }
-            })
+            }
         }
-        
     }
     
     func completeSubmition() {
-        
-        let controller = self.storyboard?.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UITabBarController
-        self.present(controller, animated: true, completion: nil)
-        
+
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {
@@ -119,16 +105,17 @@ class SubmitLocationViewController: UIViewController, MKMapViewDelegate {
         
         self.postLocation() { (success) in
             
-            performUIUpdatesOnMain {
-                
+//            performUIUpdatesOnMain {
+            
                 if success {
                     
                     self.displayAlertMessage("Success!", "The Submition was completed.")
+                    self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
                 } else {
                     
                     self.displayAlertMessage("Error!", "Connection failed! Try again.")
                 }
-            }
+//            }
         }
     }
     

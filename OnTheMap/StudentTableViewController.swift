@@ -15,12 +15,9 @@ class StudentTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -30,7 +27,26 @@ class StudentTableViewController: UITableViewController {
         
         self.tableView.reloadData()
     }
+    // MARK: Actions
     
+    @IBAction func logoutFromUdacity(_ sender: UIBarButtonItem) {
+        
+        UdacityClient.sharedInstance().logoutUser { (success, errorString) in
+            performUIUpdatesOnMain {
+                
+                if success {
+                    self.dismiss(animated: false, completion: nil)
+                } else {
+                    self.displayAlertMessage("Alert!", "Log Out Failed: \(errorString!)")
+                }
+            }
+        }
+    }
+    
+    @IBAction func refreshMapData(_ sender: UIBarButtonItem) {
+        
+        self.tableView.reloadData()
+    }
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -164,14 +164,22 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="On the Map" id="WK0-mV-0Ha">
-                        <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="bcn-6H-gyp"/>
+                        <barButtonItem key="leftBarButtonItem" title="LOGOUT" id="bcn-6H-gyp">
+                            <connections>
+                                <action selector="logoutFromUdacity:" destination="3bF-wo-nqo" id="Fpx-nC-rLQ"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem image="icon_pin" id="cuM-ic-5wM">
+                            <barButtonItem image="icon_pin" id="cuM-ic-5wM" userLabel="Add">
                                 <connections>
                                     <segue destination="hg3-bY-xsw" kind="presentation" id="t0o-t6-jzI"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem image="icon_refresh" id="bft-nV-dxy"/>
+                            <barButtonItem image="icon_refresh" id="bft-nV-dxy" userLabel="Refresh">
+                                <connections>
+                                    <action selector="refreshMapData:" destination="3bF-wo-nqo" id="hRX-gp-n6k"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>

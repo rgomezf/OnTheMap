@@ -15,9 +15,8 @@ extension ParseClient {
     func getLocationFromParse(_ completionHandler: @escaping (_ results: [StudentInformation]?, _ error: String?) -> Void) {
         
         let parameters: [String: AnyObject] = [
-            Constants.ParameterKeys.Limit: 200 as AnyObject,
-            Constants.ParameterKeys.Skip: 400 as AnyObject,
-            Constants.ParameterKeys.Order: "-updateAT" as AnyObject
+            Constants.ParameterKeys.Limit: 100 as AnyObject,
+            Constants.ParameterKeys.Order: "-updatedAt" as AnyObject
         ]
         
         let _ = taskForParseGetMethod(Constants.Methods.StudentLocation, parameters: parameters) { (jsonData, error) in
@@ -38,18 +37,7 @@ extension ParseClient {
     
     func postNewLocation(userId: String, firstName: String, lastName: String, mediaUrl: String, mapString: String,
                          _ completionHandler: @escaping (_ success: Bool, _ error: String)  -> Void) {
-        /*
-         // Client.shared.postForParse(urlAsString: "https://parse.udacity.com/parse/classes/StudentLocation",
-         httpMessageBody: "{\"uniqueKey\": \"\(Constants.Udacity.userID)\", \"firstName\": \"\(Constants.Udacity.firstName)\", \"lastName\": \"\(Constants.Udacity.lastName)\",\"mapString\": \"\(Constants.Map.enteredLocation!)\", \"mediaURL\": \"\(Constants.Map.enteredURL!)\",\"latitude\": \(Constants.Map.latitude!), \"longitude\": \(Constants.Map.longitude!)}"
-         --
-         let url = NSURL(string: urlAsString)
-         var request = URLRequest(url: url as! URL)
-         request.httpMethod = "POST"
-         request.addValue(Constants.Parse.AppicationID, forHTTPHeaderField: X-Parse-Application-Id)
-         request.addValue(Constants.Parse.APIKey, forHTTPHeaderField: X-Parse-REST-API-Key)
-         request.addValue(Constants.Parse.contentType, forHTTPHeaderField: application/json)
-         request.httpBody = httpMessageBody.data(using: String.Encoding.utf8)
-         */
+
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(mapString) { (placemarks, error) -> Void in
             
@@ -87,9 +75,8 @@ extension ParseClient {
                         }
                         
                         // Store user info
-                        
                         userInfo.objectId = objectId
-                        print("ObjectId: \(objectId)")
+                        print("ObjectId: \(userInfo.objectId!)")
                         completionHandler(true, "Success! for the Post Method.")
                     }
                 })
@@ -128,18 +115,18 @@ extension ParseClient {
             }
         }
     }
-    func updateCurrentLocation( uniqueKey: String, firstName: String, lastName: String, mediaURL: String, mapString: String,
+    func updateCurrentLocation( objectId: String, firstName: String, lastName: String, mediaURL: String, mapString: String,
                                 _ completionHandler: @escaping (_ succes: Bool, _ error: String?) -> Void) {
         
         let json: [String: AnyObject] = [
-            Constants.JSONBodyKeys.UniqueKey: uniqueKey as AnyObject,
+            Constants.JSONBodyKeys.ObjectId: objectId as AnyObject,
             Constants.JSONBodyKeys.FirstName: firstName as AnyObject,
             Constants.JSONBodyKeys.LastName: lastName as AnyObject,
             Constants.JSONBodyKeys.MediaURL: mediaURL as AnyObject,
             Constants.JSONBodyKeys.MapString: mapString as AnyObject
         ]
         
-        let _ = self.taskForParsePutMethod(Constants.Methods.StudentLocation, objectId: userInfo.objectId!, jsonObject: json) { (jsonData, error) in
+        let _ = self.taskForParsePutMethod(Constants.Methods.UpdateStudentLocation, objectId: userInfo.objectId!, jsonObject: json) { (jsonData, error) in
             
             if let error = error {
                 
@@ -152,7 +139,7 @@ extension ParseClient {
                     completionHandler(false, "No data was found")
                     return
                 }
-                
+                print("Success!! Location updated!")
                 completionHandler(true, nil)
             }
         }

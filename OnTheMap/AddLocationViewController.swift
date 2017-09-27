@@ -49,10 +49,7 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
             
             performUIUpdatesOnMain {
                 
-                self.activityIndicator.isHidden = false
-                self.activityIndicator.startAnimating()
-                
-                self.findLocation({ (success, errorString) in
+                self.findLocation(){ (success, errorString) in
                     
                     if success {
                         
@@ -63,21 +60,21 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
                         self.setUIEnabled(false)
                         self.displayAlertMessage("Error!", errorString!)
                     }
-                })
+                }
             }
-            self.activityIndicator.stopAnimating()
-            self.activityIndicator.isHidden = true
         }
     }
     
     func findLocation(_ completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         
         let geocoder = CLGeocoder()
+        self.setAnimation()
         geocoder.geocodeAddressString(locationTextField.text!) { (placemark, error) in
             
             performUIUpdatesOnMain {
                 
                 if let error = error {
+                    self.setAnimation()
                     completionHandler(false, error.localizedDescription)
                     return
                 }
@@ -103,6 +100,7 @@ class AddLocationViewController: UIViewController, UITextFieldDelegate {
                 LocationInfo.longitude = longitude
                 
                 print("\(LocationInfo.latitude) \(LocationInfo.longitude)")
+                self.setAnimation()
                 completionHandler(true, nil)
             }
         }
@@ -129,6 +127,17 @@ extension AddLocationViewController {
         }
     }
     
+    func setAnimation() {
+        
+        if self.activityIndicator.isHidden == false {
+            
+            self.activityIndicator.isHidden = true
+            self.activityIndicator.startAnimating()
+        } else {
+            self.activityIndicator.isHidden = false
+            self.activityIndicator.stopAnimating()
+        }
+    }
     // Custom Alert function.
     
     func displayAlertMessage(_ title: String, _ message: String) {

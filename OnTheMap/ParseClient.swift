@@ -115,7 +115,10 @@ class ParseClient: NSObject {
     func taskForParsePutMethod(_ method: String, objectId: String, jsonObject: [String: AnyObject], completionHandlerForPUT: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionTask {
         
         /* Build the URL, Configure the request */
-        let url = URL(string: Constants.ParseBaseURL + Constants.Methods.StudentLocation)!
+        var mutablePathExtension: String = method
+        mutablePathExtension = self.substituteKeyInMethod(mutablePathExtension, key: Constants.JSONBodyKeys.ObjectId, value: objectId)!
+        
+        let url = buildURLFromParameters([:], withPathExtension: mutablePathExtension)
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = Constants.Methods.MethodParsePut
         request.addValue(Constants.ParseApplicationID, forHTTPHeaderField: Constants.ParameterKeys.ApplicationIdString)
@@ -224,6 +227,14 @@ class ParseClient: NSObject {
         return components.url!
     }
     
+    // Substitute the key for the value that is contained within the method name
+    public func substituteKeyInMethod(_ method: String, key: String, value: String) -> String? {
+        if method.range(of: "{\(key)}") != nil {
+            return method.replacingOccurrences(of: "{\(key)}", with: value)
+        } else {
+            return nil
+        }
+    }
     // given raw JSON, return a usable Foundation object
     private func convertDataWithCompletionHandler(_ data: Data, completionHandlerForConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
         

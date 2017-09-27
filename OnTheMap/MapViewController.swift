@@ -85,7 +85,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         ParseClient.sharedInstance().getParseOjectId(uniqueKey: userInfo.uniqueKey!) { (success, error) in
             
             if error == nil {
-                print("Success! Obtained objectId: \(userInfo.objectId)")
+                print("Success! Obtained objectId: \(userInfo.objectId!)")
                 
             } else {
                 print("Error! Could not get the information: \(error!)")
