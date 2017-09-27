@@ -163,7 +163,8 @@ class ParseClient: NSObject {
     
     func getStudentLocationsFromParse(_ method: String, parameters: [String: AnyObject], _ completionHandlerForGet: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionTask {
         
-        let request = NSMutableURLRequest(url: buildURLFromParameters(parameters, withPathExtension: method))
+        let url = buildURLFromParameters(parameters, withPathExtension: Constants.Methods.StudentLocation)
+        let request = NSMutableURLRequest(url: url)
         request.httpMethod = Constants.Methods.MethodParseGet
         request.addValue(Constants.ParseApplicationID, forHTTPHeaderField: Constants.ParameterKeys.ApplicationIdString)
         request.addValue(Constants.ParseApiKey, forHTTPHeaderField: Constants.ParameterKeys.RestApiString)

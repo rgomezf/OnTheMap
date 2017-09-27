@@ -53,8 +53,8 @@ extension UdacityClient   {
                 return
             }
             
-            guard let userId = userAccount[Constants.JSONResponseKeys.UserId] as? String else {
-                completionHandlerForSession(false, "Could not find key: '\(Constants.JSONResponseKeys.UserId)' in \(results!)")
+            guard let uniqueKey = userAccount[Constants.JSONResponseKeys.UniqueKey] as? String else {
+                completionHandlerForSession(false, "Could not find key: '\(Constants.JSONResponseKeys.UniqueKey)' in \(results!)")
                 return
             }
             guard let session = results?[Constants.JSONResponseKeys.UserSession] as? [String: AnyObject] else {
@@ -66,7 +66,7 @@ extension UdacityClient   {
                 completionHandlerForSession(false, "Could not find key: '\(Constants.JSONResponseKeys.SessionID)' in \(results!)")
                 return
             }
-            userInfo.userId = userId
+            userInfo.uniqueKey = uniqueKey
             userInfo.sessionId = sessionId
             
             self.getPublicUserData({ (success, error) in
@@ -86,7 +86,7 @@ extension UdacityClient   {
     }
     func getPublicUserData(_ completionHandler: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         
-        let _ = taskForUdacityGETMethod(Constants.Methods.Users, userId: userInfo.userId!) { (jsonData, error) in
+        let _ = taskForUdacityGETMethod(Constants.Methods.Users, uniqueKey: userInfo.uniqueKey!) { (jsonData, error) in
             
             if let error = error {
                 print("error: \(error)")
@@ -99,13 +99,13 @@ extension UdacityClient   {
                     return
                 }
                 
-                guard let userId = user[Constants.JSONResponseKeys.UserId] as? String else {
-                    print("Could not find key: '\(Constants.JSONResponseKeys.UserId)' in \(jsonData!)")
+                guard let uniqueKey = user[Constants.JSONResponseKeys.UniqueKey] as? String else {
+                    print("Could not find key: '\(Constants.JSONResponseKeys.UniqueKey)' in \(jsonData!)")
                     completionHandler(false, error?.localizedDescription)
                     return
                 }
-                print("Passed GET userID: \(userId)")
-                userInfo.userId = userId
+                print("Passed GET uniqueKey: \(uniqueKey)")
+                userInfo.uniqueKey = uniqueKey
                 
                 guard let firstName = user[Constants.JSONResponseKeys.FirstName] as? String else {
                     print("Could not find key: '\(Constants.JSONResponseKeys.FirstName)' in \(jsonData!)")

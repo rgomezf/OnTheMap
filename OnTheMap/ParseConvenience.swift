@@ -81,15 +81,15 @@ extension ParseClient {
                             return
                         }
                         
-                        guard let objectID = jsonData?[Constants.JSONResponseKeys.ObjectID] as? String else {
+                        guard let objectId = jsonData?[Constants.JSONResponseKeys.ObjectID] as? String else {
                             print("Could not find key: '\(Constants.JSONResponseKeys.ObjectID)' in \(jsonData!)")
                             return
                         }
                         
                         // Store user info
                         
-                        userInfo.objectId = objectID
-                        print("ObjectID: \(objectID)")
+                        userInfo.objectId = objectId
+                        print("ObjectId: \(objectId)")
                         completionHandler(true, "Success! for the Post Method.")
                     }
                 })
@@ -97,8 +97,10 @@ extension ParseClient {
         }
     }
     func getParseOjectId(uniqueKey: String, _ completionHandler: @escaping(_ success: Bool, _ errorString: String?) -> Void) {
+        
         let parameters: [String: AnyObject] = [
-            Constants.ParameterKeys.Unique: uniqueKey as AnyObject
+            "order": "-createdAt" as AnyObject,
+            "where": "{\"\(Constants.JSONBodyKeys.UniqueKey)\":\"\(userInfo.uniqueKey!)\"}" as AnyObject
         ]
         let _ = getStudentLocationsFromParse(Constants.Methods.StudentLocation, parameters: parameters) { (jsonData, error) in
             
@@ -126,11 +128,11 @@ extension ParseClient {
             }
         }
     }
-    func updateCurrentLocation( userId: String, firstName: String, lastName: String, mediaURL: String, mapString: String,
+    func updateCurrentLocation( uniqueKey: String, firstName: String, lastName: String, mediaURL: String, mapString: String,
                                 _ completionHandler: @escaping (_ succes: Bool, _ error: String?) -> Void) {
         
         let json: [String: AnyObject] = [
-            Constants.JSONBodyKeys.UniqueKey: userId as AnyObject,
+            Constants.JSONBodyKeys.UniqueKey: uniqueKey as AnyObject,
             Constants.JSONBodyKeys.FirstName: firstName as AnyObject,
             Constants.JSONBodyKeys.LastName: lastName as AnyObject,
             Constants.JSONBodyKeys.MediaURL: mediaURL as AnyObject,

@@ -25,6 +25,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         clearMap()
         getLocations()
+        getUserParseInformation()
     }
     // 
     func addLocations() {
@@ -78,6 +79,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    // Get User Parse Information
+    func getUserParseInformation() {
+        
+        ParseClient.sharedInstance().getParseOjectId(uniqueKey: userInfo.uniqueKey!) { (success, error) in
+            
+            if error == nil {
+                print("Success! Obtained objectId: \(userInfo.objectId)")
+                
+            } else {
+                print("Error! Could not get the information: \(error!)")
+            }
+        }
+
+    }
     // MARK: Map functions
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -120,6 +135,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             mapView.removeAnnotation(annotation)
         }
     }
+    
     // MARK: Actions
     
     @IBAction func logOut( _ sender: Any) {
@@ -128,7 +144,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             performUIUpdatesOnMain {
                 
                 if success {
-                    self.dismiss(animated: true, completion: nil)
+                    self.dismiss(animated: false, completion: nil)
                 } else {
                     self.displayAlertMessage("Alert!", "Log Out Failed: \(errorString!)")
                 }

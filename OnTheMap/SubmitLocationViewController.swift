@@ -68,9 +68,10 @@ class SubmitLocationViewController: UIViewController, MKMapViewDelegate {
      request.addValue(Constants.Parse.contentType, forHTTPHeaderField: application/json)
      request.httpBody = httpMessageBody.data(using: String.Encoding.utf8)
  */
+        // Look for the Student Location and try to get it's objectId from Parse
         if userInfo.objectId == "" {
             
-            ParseClient.sharedInstance().postNewLocation(userId: userInfo.userId!, firstName: userInfo.firstName!, lastName: userInfo.lastName!, mediaUrl: LocationInfo.website, mapString: LocationInfo.location) { (success, errorString) in
+            ParseClient.sharedInstance().postNewLocation(userId: userInfo.uniqueKey!, firstName: userInfo.firstName!, lastName: userInfo.lastName!, mediaUrl: LocationInfo.website, mapString: LocationInfo.location) { (success, errorString) in
                 
                 performUIUpdatesOnMain {
                     
@@ -87,7 +88,7 @@ class SubmitLocationViewController: UIViewController, MKMapViewDelegate {
             }
         } else {
             
-            ParseClient.sharedInstance().updateCurrentLocation(userId: userInfo.userId!, firstName: userInfo.firstName!, lastName: userInfo.lastName!, mediaURL: LocationInfo.website, mapString: LocationInfo.location, { (success, errorString) in
+            ParseClient.sharedInstance().updateCurrentLocation(uniqueKey: userInfo.uniqueKey!, firstName: userInfo.firstName!, lastName: userInfo.lastName!, mediaURL: LocationInfo.website, mapString: LocationInfo.location, { (success, errorString) in
                 
                 if success {
                     

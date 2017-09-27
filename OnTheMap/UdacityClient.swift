@@ -19,11 +19,11 @@ class UdacityClient: NSObject {
         super.init()
     }
     
-    func taskForUdacityGETMethod(_ method: String, userId: String, completionHandlerForGET: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+    func taskForUdacityGETMethod(_ method: String, uniqueKey: String, completionHandlerForGET: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
         
         
         /* Build the URL, Configure the request */
-        let urlString = Constants.UdacityBaseURL + method + "/" + userId
+        let urlString = Constants.UdacityBaseURL + method + "/" + uniqueKey
         let request = NSMutableURLRequest(url: URL(string: urlString)!)
         
         /* Make the request */

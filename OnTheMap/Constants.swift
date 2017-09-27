@@ -80,7 +80,7 @@ struct Constants {
         
         // Account
         static let UserAccount = "account"
-        static let UserId = "key"
+        static let UniqueKey = "key"
         static let SessionID = "id"
         
         static let User = "user"
@@ -95,7 +95,6 @@ struct Constants {
         static let MapString = "mapString"
         static let MediaURL = "mediaURL"
         static let ObjectID = "objectId"
-        static let UniqueKey = "uniqueKey"
         static let UpdatedAt = "updatedAt"
     }
 }
